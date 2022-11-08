@@ -16,12 +16,13 @@ def add_cart(request, product_id):
     try:
         cart = Cart.objects.get(cart_id=_cart_id(request)) #get the cart using the cart id present in the session
     except Cart.DoesNotExist:
-        cart = Cart.objects.create
-        cart_id = _cart_id(request)
+        cart = Cart.objects.create(
+            cart_id = _cart_id(request)
+        )
     cart.save()
 
     try:
-        cart_item = CartItem.objects.get(product=Product, cart=cart)
+        cart_item = CartItem.objects.get(product=product, cart=cart)
         cart_item.quantity += 1 #cart item.quantity = cart_item.quantity + 1
         cart_item.save()
     except CartItem.DoesNotExist:
